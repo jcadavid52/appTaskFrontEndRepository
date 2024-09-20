@@ -2,7 +2,7 @@
    
     width: 60%;
     margin: 20px;
-
+   
 }
 
 .datagrid-container > h1{
@@ -52,5 +52,19 @@
 }
 .css-rm9hue-MuiSvgIcon-root-MuiSelect-icon{
     color: aliceblue !important;
+}
+
+@media (max-width: 850px) {
+    .datagrid-container{
+   
+        width: 80%;
+        margin: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .datagrid-container{
+        width: 90%; 
+    }
 }
 

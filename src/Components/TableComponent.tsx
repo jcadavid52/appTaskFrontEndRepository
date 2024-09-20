@@ -67,7 +67,7 @@ const TableComponent: React.FC = () => {
 
   return (
     <div className="datagrid-container">
-      <h1>Lista De Tareas</h1>
+      <h1>Tasks List</h1>
       {loading ? (
         <p>{"Cargando..."}</p>
       ) : (

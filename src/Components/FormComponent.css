@@ -1,18 +1,60 @@
 .form-container{
-   
+    
     width: 30%;
     margin: 20px;
-    border: solid aliceblue;
+    
+    margin-top: 6.5em;
+
+    
+  
 }
 
-.form-container > h1{
+.form-container > h3{
     margin: 20px;
     text-align: center;
     color: aliceblue;
 }
 
-@media (max-width: 768px) {
-    .form-container > h1{
-        color: red;
+.button-container{
+    text-align: center;
+    margin: 20px;
+}
+
+
+.text-field{
+    width: 100%;
+}
+
+#filled-basic{
+  color: aliceblue;
+}
+
+@media (max-width: 850px) {
+    .form-container{
+   
+        width: 80%;
+        margin: auto;
+        margin-top: 2em;
+        display: flex;
+      
     }
-  }
+
+    
+
+    .text-field{
+        width: 48%;
+        
+    }
+}
+
+
+
+@media (max-width: 395px) {
+   
+    .form-container{
+   
+        width: 90%;
+        
+      
+    }
+}
