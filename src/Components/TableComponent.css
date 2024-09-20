@@ -1,0 +1,56 @@
+.datagrid-container{
+   
+    width: 60%;
+    margin: 20px;
+
+}
+
+.datagrid-container > h1{
+    margin: 20px;
+    text-align: center;
+    color: aliceblue;
+}
+.MuiDataGrid-columnHeader{
+   
+   background: #d0ece7;
+   
+  
+}
+
+.MuiDataGrid-row:hover {
+    background-color: #202020 !important; 
+}
+
+.MuiDataGrid-row{
+  color: aliceblue;
+}
+
+.MuiTablePagination-root{
+    color: aliceblue !important;
+}
+
+.MuiDataGrid-selectedRowCount{
+    color: aliceblue;
+}
+
+
+
+.MuiDataGrid-virtualScroller{
+    text-align: center;
+}
+
+.MuiDataGrid-scrollbarContent{
+    background-color: aliceblue;
+    
+}
+.css-hizwh9-MuiButtonBase-root-MuiIconButton-root{
+    color: #2e4053 !important;
+}
+
+.css-20bmp1-MuiSvgIcon-root{
+    color: aliceblue;
+}
+.css-rm9hue-MuiSvgIcon-root-MuiSelect-icon{
+    color: aliceblue !important;
+}
+
