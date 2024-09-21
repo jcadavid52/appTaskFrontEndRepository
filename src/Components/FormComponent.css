@@ -29,22 +29,34 @@
   color: aliceblue;
 }
 
+.item-input-container > span{
+    color: red;
+    font-size: 13px;
+   display: block; 
+}
+
+
+
 @media (max-width: 850px) {
     .form-container{
    
         width: 80%;
         margin: auto;
         margin-top: 2em;
+      
+
+      
+    }
+
+    .input-container{
         display: flex;
       
+        justify-content: center;
     }
 
     
 
-    .text-field{
-        width: 48%;
-        
-    }
+    
 }
 
 

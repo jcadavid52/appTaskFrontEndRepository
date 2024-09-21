@@ -1,17 +1,17 @@
-import { Task } from "../Types/TaskInterface";
+import { GetTask } from "../Types/TaskInterface";
 import React, { useEffect, useState } from "react";
 import { getTasks } from "../Api/TasksApi";
-import { DataGrid,GridCol } from "@mui/x-data-grid";
+import { DataGrid} from "@mui/x-data-grid";
 import "./TableComponent.css";
 import Box from "@mui/material/Box";
 
 interface ArgumentsTable {
-  tasks: Task[];
+  tasks: GetTask[];
 }
 
 const TableComponent: React.FC = () => {
   //Use states
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<GetTask[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
