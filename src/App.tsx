@@ -2,6 +2,8 @@ import TableComponent from "./Components/tableComponent";
 import FormComponent from "./Components/FormComponent";
 import { createTheme, ThemeProvider } from "@mui/material";
 import "./App.css";
+import IndexPage from "./Pages/IndexPage";
+
 
 const theme = createTheme({
   palette: {
@@ -18,9 +20,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="app-container">
-        <FormComponent />
+       
 
-        <TableComponent />
+       
+        <IndexPage/>
       </div>
     </ThemeProvider>
   );

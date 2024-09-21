@@ -5,7 +5,11 @@ import { Button } from "@mui/material";
 import { AddTask } from "../Types/TaskInterface";
 import { addTask } from "../Api/TasksApi";
 
-const FormComponent: React.FC = () => {
+interface FormularioProps {
+  agregarElemento: (nuevoElemento:{description:string}) => void
+}
+
+const FormComponent: React.FC<FormularioProps> = ({agregarElemento}) => {
   const {
     register,
     handleSubmit,
@@ -14,10 +18,12 @@ const FormComponent: React.FC = () => {
   } = useForm<AddTask>();
 
   const onSubmit = handleSubmit(async (data: AddTask) => {
-    console.log(data);
+    
 
     try {
       await addTask(data);
+
+      agregarElemento(data)
 
       alert("task add successfully");
     } catch {
@@ -45,7 +51,7 @@ const FormComponent: React.FC = () => {
                   message: "This field is required",
                 },
                 minLength: {
-                  value: 2,
+                  value: 3,
                   message:
                     "the task description, cannot be less or equal to two characters",
                 },

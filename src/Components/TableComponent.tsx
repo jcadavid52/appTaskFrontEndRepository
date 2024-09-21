@@ -6,12 +6,13 @@ import "./TableComponent.css";
 import Box from "@mui/material/Box";
 
 interface ArgumentsTable {
-  tasks: GetTask[];
+  taskList:GetTask[]
+  
 }
 
-const TableComponent: React.FC = () => {
+const TableComponent: React.FC<ArgumentsTable> = ({taskList}) => {
   //Use states
-  const [tasks, setTasks] = useState<GetTask[]>([]);
+  const [tasks, setTasks] = useState<GetTask[]>(taskList);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,6 +31,8 @@ const TableComponent: React.FC = () => {
 
     fetchData();
   }, []);
+
+
 
   //colums
   const columns = [
@@ -72,7 +75,7 @@ const TableComponent: React.FC = () => {
         <p>{"Cargando..."}</p>
       ) : (
         <Box sx={{ height:"400px",  width: '100%' }}>
-          <DataGrid rows={tasks} columns={columns} density="compact" />
+          <DataGrid rows={taskList.length == 0 ? tasks:taskList} columns={columns} density="compact" />
         </Box>
       )}
     </div>
