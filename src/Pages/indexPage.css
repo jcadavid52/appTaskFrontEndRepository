@@ -1,7 +1,15 @@
-.pageIndex-container{
-  
-    width: 100%;
-   
-    
+
+
+.pageIndex-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+ 
 }
 
+@media (max-width: 850px) {
+  .pageIndex-container {
+    flex-direction: column;
+  }
+}

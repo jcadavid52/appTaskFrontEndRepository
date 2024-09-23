@@ -24,7 +24,7 @@ export default function IndexPage(){
     }
     return(
         <div className="pageIndex-container">
-            page index
+           
 
             <FormComponent agregarElemento={agregarTarea}/>
             <TableComponent taskList={tasks}/>

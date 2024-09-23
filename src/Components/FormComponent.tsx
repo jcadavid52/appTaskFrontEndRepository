@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { AddTask } from "../Types/TaskInterface";
 import { addTask } from "../Api/TasksApi";
+import SaveIcon from '@mui/icons-material/Save';
 
 interface FormularioProps {
   agregarElemento: (nuevoElemento:{description:string}) => void
@@ -60,7 +61,7 @@ const FormComponent: React.FC<FormularioProps> = ({agregarElemento}) => {
             {errors.description && <span>{errors.description.message}</span>}
           </div>
           <div className="item-input-container button-container">
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" size="small" startIcon={<SaveIcon color="success"/>}>
               Save
             </Button>
           </div>
