@@ -1,32 +1,37 @@
-import "./FormComponent.css";
+import "../assets/css/FormComponent.css";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { AddTask } from "../Types/TaskInterface";
 import { addTask } from "../Api/TasksApi";
-import SaveIcon from '@mui/icons-material/Save';
+import SaveIcon from "@mui/icons-material/Save";
 
 interface FormularioProps {
-  agregarElemento: (nuevoElemento:{description:string}) => void
+  agregarElemento: (nuevoElemento: { description: string }) => void;
 }
 
-const FormComponent: React.FC<FormularioProps> = ({agregarElemento}) => {
+const FormComponent: React.FC<FormularioProps> = ({ agregarElemento }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<AddTask>();
 
+  
+
   const onSubmit = handleSubmit(async (data: AddTask) => {
-    
-
     try {
-      await addTask(data);
+      let response = await addTask(data);
 
-      agregarElemento(data)
+      if (response == undefined) {
+        alert("Hubo un error");
+      } else {
+      
+        agregarElemento(data);
 
-      alert("task add successfully");
+        alert("task add successfully");
+      }
     } catch {
       alert("Hubo un error");
     }
@@ -41,6 +46,7 @@ const FormComponent: React.FC<FormularioProps> = ({agregarElemento}) => {
         <div className="input-container">
           <div className="item-input-container">
             <TextField
+              type="text"
               id="filled-basic"
               label={"Description Task"}
               variant="filled"
@@ -60,8 +66,14 @@ const FormComponent: React.FC<FormularioProps> = ({agregarElemento}) => {
             />
             {errors.description && <span>{errors.description.message}</span>}
           </div>
+
           <div className="item-input-container button-container">
-            <Button variant="contained" type="submit" size="small" startIcon={<SaveIcon color="success"/>}>
+            <Button
+              variant="contained"
+              type="submit"
+              size="small"
+              startIcon={<SaveIcon color="success" />}
+            >
               Save
             </Button>
           </div>

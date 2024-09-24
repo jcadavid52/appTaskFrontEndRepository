@@ -2,7 +2,8 @@ import TableComponent from "./Components/tableComponent";
 import FormComponent from "./Components/FormComponent";
 import { createTheme, ThemeProvider } from "@mui/material";
 import "./App.css";
-import IndexPage from "./Pages/IndexPage";
+import IndexPage from "./Pages/PageIndex";
+
 
 
 const theme = createTheme({
