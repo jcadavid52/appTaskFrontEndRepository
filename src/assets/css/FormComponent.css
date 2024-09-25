@@ -21,8 +21,8 @@
     width: 100%;
 }
 
-#filled-basic{
-  color: aliceblue;
+.MuiInputBase-input{
+  color: aliceblue !important;
 }
 
 .item-input-container > span{

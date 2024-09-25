@@ -129,10 +129,7 @@ export default function PageIndex() {
     console.log(params);
   };
 
-  const agregarTarea = (nuevoTarea: AddTask) => {
-    console.log(nuevoTarea);
-    refreshTable();
-  };
+
 
   const refreshTable = async () => {
     try {
@@ -149,7 +146,7 @@ export default function PageIndex() {
     {
       id: "filled-basic1",
       type: "text",
-      label: "Tarea",
+      label: "Description Task",
       variant: "filled",
       color: "secondary",
       messageMinLength:
@@ -169,8 +166,10 @@ export default function PageIndex() {
         alert("Hubo un error");
       } else {
        
-
+        
         alert("task add successfully");
+
+        refreshTable();
       }
     } catch {
       alert("Hubo un error");
@@ -179,10 +178,10 @@ export default function PageIndex() {
 
   return (
     <div className="pageIndex-container">
-      {/* <FormComponent agregarElemento={agregarTarea}/> */}
+      
       <FormPrueba<AddTask>
         inputProps={inputProps}
-        agregarElemento={agregarTarea}
+       
         handleSubmitData={HandleSubmitData}
       />
       <TableTasks
