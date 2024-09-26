@@ -1,25 +1,59 @@
-import {TableComponent} from "../Components/TaskComponentes/TableComponent";
-import { AddTask, GetTask } from "../Types/TaskInterface";
-import React, { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { AddTask, ContextTaskPropsType } from "../Types/TaskInterface";
 import { getTasks } from "../Api/TasksApi";
-import "../assets/css/TableComponent.css";
-import "../assets/css/indexPage.css";
+import { GetTask } from "../Types/TaskInterface";
 import IconButton from "@mui/material/IconButton";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {FormComponent} from "../Components/TaskComponentes/FormComponent";
+import { GridColDef } from "@mui/x-data-grid";
 import { InputProps } from "../Types/TaskInterface";
-import { addTask } from "../Api/TasksApi";
-import ModalComponent from "../Components/TaskComponentes/ModalComponent";
 
 
-export default function PageIndex() {
+interface TaskProviderProps {
+  children: React.ReactNode;
+}
+
+export const TaskContext = createContext<ContextTaskPropsType | undefined>(
+  undefined
+);
+
+export function TaskContextProvider(props: TaskProviderProps) {
   const [tasks, setTasks] = useState<GetTask[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [refreshTable,setRefreshTable] = useState<boolean>(false);
-  //colums
-  const columnsTasks = [
+
+  // Get All Tasks
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getTasks();
+
+        setTasks(data);
+      } catch (err) {
+        setError("Error al cargar las tareas" + err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //crud
+  const createTask = (task:AddTask) =>{
+    console.log(task)
+  }
+
+  const HandleEdit = (params: GetTask): void => {
+    console.log(params);
+  };
+
+  const HandleDelete = (params: GetTask): void => {
+    console.log(params);
+  };
+
+  //Columns datagrid
+  const columnsTasks: GridColDef[] = [
     {
       field: "id",
       headerName: "ID",
@@ -103,35 +137,6 @@ export default function PageIndex() {
     },
   ];
 
-  //use effect
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getTasks();
-        
-        setTasks(data);
-      } catch (err) {
-        setError("Error al cargar las tareas" + err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [refreshTable]);
-
-  //functions
-
-  const HandleEdit = (params: GetTask): void => {
-    console.log(params);
-  };
-
-  const HandleDelete = (params: GetTask): void => {
-    console.log(params);
-  };
-
-
-
   
 
   //input props
@@ -152,38 +157,13 @@ export default function PageIndex() {
     }
   ];
 
-  const HandleSubmitData = async  (data: AddTask) => {
-    try {
-      const response = await addTask(data);
-
-      if (response == undefined) {
-        alert("Hubo un error");
-      } else {
-       
-        
-        alert("task add successfully");
-
-        setRefreshTable(true)
-      }
-    } catch {
-      alert("Hubo un error");
-    }
-  };
+ 
 
   return (
-    <div className="pageIndex-container">
-      
-      <FormComponent<AddTask>
-        inputProps={inputProps}
-        titleForm={"Add Task"}
-        handleSubmitData={HandleSubmitData}
-        
-      />
-      <TableComponent
-        loading={loading}
-        title="Task List"
-      />
-      
-    </div>
+    <TaskContext.Provider
+      value={{ rowsDatagrid: tasks, columnsDatagrid: columnsTasks,createElement:createTask,inputProps }}
+    >
+      {props.children}
+    </TaskContext.Provider>
   );
 }

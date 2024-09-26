@@ -1,24 +1,27 @@
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { TaskContext } from "../../Context/TaskContext";
 import Box from "@mui/material/Box";
 
-interface TableProps<T> {
-  data: T[];
-  columns: T[];
+interface TableProps {
   loading: boolean;
   title:string
 }
-const TableComponent = <T,>({ data, columns, loading,title }: TableProps<T>) => {
+export function TableComponent(props:TableProps) {
+ 
+  const data = useContext(TaskContext);
+  
+
   return (
     <div className="datagrid-container">
-      <h1>{title}</h1>
-      {loading ? (
+      <h1>{props.title}</h1>
+      {props.loading ? (
         <p>{"Cargando..."}</p>
       ) : (
         <Box sx={{ height: "400px", width: "100%" }}>
           <DataGrid
-            rows={data}
-            columns={columns}
+            rows={data?.rowsDatagrid}
+            columns={data?.columnsDatagrid}
             density="compact"
             initialState={{
               columns: {
@@ -44,4 +47,4 @@ const TableComponent = <T,>({ data, columns, loading,title }: TableProps<T>) => 
   );
 };
 
-export default TableComponent;
+

@@ -13,7 +13,7 @@ export const getTasks = async (): Promise<GetTask[]> => {
 
     const data: GetTask[] = await response.json();
 
-    console.log(data);
+   
     return data;
   } catch (error) {
     console.error("Error al consumir el servicio:", error);
@@ -40,7 +40,7 @@ export const addTask = async (data: AddTask): Promise<AddTask | undefined > => {
 
     
     
-    console.log('Respuesta recibida:', result);
+    
 
     return result;
    

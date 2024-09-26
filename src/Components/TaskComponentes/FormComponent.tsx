@@ -1,38 +1,41 @@
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import { InputProps } from "../Types/TaskInterface";
 import { Button } from "@mui/material";
-import "../assets/css/FormComponent.css";
+import "../../assets/css/FormComponent.css";
 import SaveIcon from "@mui/icons-material/Save";
+import { TaskContext } from "../../Context/TaskContext";
+import { useContext } from "react";
 
-interface FormularioProps<T> {
-  agregarElemento: (nuevoElemento: { description: string }) => void;
-  inputProps: InputProps[];
-  handleSubmitData: (data: T) => void;
+interface FormularioProps {
+  titleForm?: string;
 }
-const FormPrueba = <T,>({
-  inputProps,
-  handleSubmitData,
-}: FormularioProps<T>) => {
+export function FormComponent(props: FormularioProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<T>();
+  } = useForm<any>();
 
-  const onSubmit = handleSubmit(async (data: T) => {
-    handleSubmitData(data);
+  const data = useContext(TaskContext);
+
+  const onSubmit = handleSubmit(async (model: any) => {
+    data?.createElement(model);
 
     reset();
   });
+
   return (
     <div className="form-container">
-      <h3>Add Task</h3>
+      <h3>{props.titleForm}</h3>
       <form onSubmit={onSubmit}>
         <div className="input-container">
-          {inputProps.map((item, index) => (
-            <div className="item-input-container" key={index}>
+          {data?.inputProps.map((item, index) => (
+            <div
+              className="item-input-container"
+              key={index}
+              hidden={item.hidden}
+            >
               <TextField
                 id={item.id}
                 type={item.type}
@@ -50,6 +53,7 @@ const FormPrueba = <T,>({
                     message: item.messageMinLength,
                   },
                 })}
+                defaultValue={item.defaultValue}
               />
 
               {errors[item.name] && <span>{errors[item.name].message}</span>}
@@ -69,6 +73,4 @@ const FormPrueba = <T,>({
       </form>
     </div>
   );
-};
-
-export default FormPrueba;
+}
