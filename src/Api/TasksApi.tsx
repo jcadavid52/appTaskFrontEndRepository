@@ -79,3 +79,26 @@ export const updateTask = async (data: TaskType): Promise<TaskType | undefined> 
     console.error('Hubo un problema con la solicitud:', error);
   }
 };
+
+export const deleteTask = async (taskId: string): Promise<TaskType | undefined> => {
+  try {
+    const response = await fetch(`${API_URL}/TaskCli/DeleteTask?id=${taskId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      // Si la respuesta no es exitosa, lanzamos un error
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    const result:TaskType = await response.json();
+
+    return result;
+    
+  } catch (error) {
+    console.error(`Hubo un problema eliminando el producto: ${(error as Error).message}`);
+    return undefined;
+  }
+}

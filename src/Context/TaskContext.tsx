@@ -1,13 +1,18 @@
 import { createContext, useEffect, useState } from "react";
 import { AddTask, ContextTaskPropsType } from "../Types/TaskInterface";
-import { getTasks, addTask,updateTask } from "../Api/TasksApi";
-import { GetTask,UpdateTask,TaskType, classTextfieldMuiCss} from "../Types/TaskInterface";
+import { getTasks, addTask, updateTask, deleteTask } from "../Api/TasksApi";
+import {
+  GetTask,
+  UpdateTask,
+  TaskType,
+  classTextfieldMuiCss,
+} from "../Types/TaskInterface";
 import IconButton from "@mui/material/IconButton";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { GridColDef } from "@mui/x-data-grid";
 import { InputProps } from "../Types/TaskInterface";
-import { SxProps, Theme } from '@mui/system';
+import { SxProps, Theme } from "@mui/system";
 
 interface TaskProviderProps {
   children: React.ReactNode;
@@ -23,7 +28,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshTable, setRefreshTable] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
-  const [modelUpdate,setModelUpdate] = useState<TaskType>()
+  const [modelUpdate, setModelUpdate] = useState<TaskType>();
 
   // Get All Tasks
   useEffect(() => {
@@ -37,18 +42,13 @@ export function TaskContextProvider(props: TaskProviderProps) {
         setLoading(false);
       }
     };
-    
-    
 
-      fetchData();
-     
-    
+    fetchData();
   }, [refreshTable]);
 
   //crud
   const CreateTask = async (task: TaskType) => {
     try {
-      
       const response = await addTask(task);
 
       if (response == undefined) {
@@ -56,11 +56,9 @@ export function TaskContextProvider(props: TaskProviderProps) {
       } else {
         alert("task add successfully");
 
-       
-
-        if(refreshTable){
+        if (refreshTable) {
           setRefreshTable(false);
-        }else{
+        } else {
           setRefreshTable(true);
         }
       }
@@ -70,24 +68,19 @@ export function TaskContextProvider(props: TaskProviderProps) {
   };
 
   const UpdateTask = async (task: TaskType) => {
-    
-   
     try {
-      
       const response = await updateTask(task);
 
       if (response == undefined) {
         alert("Hubo un error");
       } else {
         setOpen(false);
-        
-        alert("task updated successfully");
 
-        
+        // alert("task updated successfully");
 
-        if(refreshTable){
+        if (refreshTable) {
           setRefreshTable(false);
-        }else{
+        } else {
           setRefreshTable(true);
         }
       }
@@ -96,19 +89,41 @@ export function TaskContextProvider(props: TaskProviderProps) {
     }
   };
 
-  const DeleteTask = (params: GetTask): void => {
-    console.log(params);
+  const DeleteTask = async (task: TaskType) => {
+    const respuesta = confirm(
+      "¿Estás seguro de que quieres realizar esta acción?"
+    );
+
+    if (respuesta) {
+      try {
+        const response = await deleteTask(task.id);
+
+        if (response == null) {
+          alert("Hubo un error");
+        } else {
+          if (refreshTable) {
+            setRefreshTable(false);
+          } else {
+            setRefreshTable(true);
+          }
+
+          alert("Task Deleted Successfully!");
+        }
+        
+      } catch {
+        alert("Hubo un error");
+      }
+    }
   };
 
-  const HandleModal = (params: TaskType) =>{
-    setOpen(true)
-    setModelUpdate(params)
-   
-  }
+  const HandleModal = (params: TaskType) => {
+    setOpen(true);
+    setModelUpdate(params);
+  };
 
   const handleClose = () => {
-      setOpen(false);
-    };
+    setOpen(false);
+  };
 
   //Columns datagrid
   const columnsTasks: GridColDef[] = [
@@ -196,59 +211,49 @@ export function TaskContextProvider(props: TaskProviderProps) {
   ];
 
   //styles input props
-  const CssTextFieldAddTask:SxProps<Theme> = {
-
-    '& label.MuiInputLabel-root': {
-      color: '#d0ece7',
-    },
-    
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#85929e',
-        
-      },
-      '&:hover fieldset': {
-        borderColor: '#f7f9f9',
-      },
-      '&.Mui-focused fieldset': {
-        
-        borderColor: '#f7f9f9',
-      },
-      
+  const CssTextFieldAddTask: SxProps<Theme> = {
+    "& label.MuiInputLabel-root": {
+      color: "#d0ece7",
     },
 
-    'input':{
-      color:"#d0ece7"
-    }
-  }
-
-  const CssTextFieldUpdateTask:SxProps<Theme> = {
-
-    '& label.MuiInputLabel-root': {
-      color: '#566573',
-    },
-    
-    
-    
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#85929e',
-        
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#85929e",
       },
-      '&:hover fieldset': {
-        borderColor: '#17202a',
+      "&:hover fieldset": {
+        borderColor: "#f7f9f9",
       },
-      '&.Mui-focused fieldset': {
-        
-        borderColor: '#17202a',
+      "&.Mui-focused fieldset": {
+        borderColor: "#f7f9f9",
       },
-      
     },
 
-    'input':{
-      color:"#566573"
-    }
-  }
+    input: {
+      color: "#d0ece7",
+    },
+  };
+
+  const CssTextFieldUpdateTask: SxProps<Theme> = {
+    "& label.MuiInputLabel-root": {
+      color: "#566573",
+    },
+
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#85929e",
+      },
+      "&:hover fieldset": {
+        borderColor: "#17202a",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#17202a",
+      },
+    },
+
+    input: {
+      color: "#566573",
+    },
+  };
   //input props
 
   const inputPropsAddTask: InputProps[] = [
@@ -264,9 +269,8 @@ export function TaskContextProvider(props: TaskProviderProps) {
       name: "description",
       required: true,
       focused: true,
-      cssTextField:CssTextFieldAddTask
+      cssTextField: CssTextFieldAddTask,
     },
-    
   ];
 
   const inputPropsUpdateTask: InputProps[] = [
@@ -292,10 +296,8 @@ export function TaskContextProvider(props: TaskProviderProps) {
       name: "description",
       required: true,
       defaultValue: modelUpdate?.description,
-      cssTextField:CssTextFieldUpdateTask
+      cssTextField: CssTextFieldUpdateTask,
     },
-    
-    
   ];
 
   return (
@@ -303,14 +305,14 @@ export function TaskContextProvider(props: TaskProviderProps) {
       value={{
         rowsDatagrid: tasks,
         columnsDatagrid: columnsTasks,
-        createTask:CreateTask,
-        updateTask:UpdateTask,
+        createTask: CreateTask,
+        updateTask: UpdateTask,
         inputPropsAdd: inputPropsAddTask,
         inputPropsEdit: inputPropsUpdateTask,
         loading,
-        openModal:open,
-        closeModal:handleClose,
-        modelUpdate:modelUpdate
+        openModal: open,
+        closeModal: handleClose,
+        modelUpdate: modelUpdate,
       }}
     >
       {props.children}
