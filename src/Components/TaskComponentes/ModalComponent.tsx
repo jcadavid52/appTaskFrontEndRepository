@@ -1,47 +1,76 @@
-import FormComponent from "./FormComponent";
-import { UpdateTask, InputProps } from "../../Types/TaskInterface";
+import { FormComponent } from "./FormComponent";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { InputProps } from "../../Types/TaskInterface";
+import { TaskContext } from "../../Context/TaskContext";
+import { useContext } from "react";
 
 const ModalComponent = () => {
-  const HandleSubmitEditTask = (data: UpdateTask) => {
-    console.log(data);
-  };
+  
+  const [scroll, setScroll] = React.useState<DialogProps["scroll"]>("paper");
 
-  const inputProps: InputProps[] = [
-    {
-      id: "id",
-      type: "text",
-      label: "ID",
-      variant: "filled",
-      color: "secondary",
-      name: "id",
-      hidden: true,
-      defaultValue: "",
-    },
-    {
-      id: "description",
-      type: "text",
-      label: "Description Task",
-      variant: "filled",
-      color: "secondary",
-      messageMinLength:
-        "the task description, cannot be less or equal to two characters",
-      minLength: 2,
-      name: "description",
-      required: true,
-      focused: true,
-      defaultValue: "",
-    },
-  ];
+  const data = useContext(TaskContext);
+
+
+  // const handleClickOpen = (scrollType: DialogProps["scroll"]) => () => {
+  //   setOpen(true);
+  //   setScroll(scrollType);
+  // };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  const descriptionElementRef = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    if (data?.openModal) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [data?.openModal]);
+
+ 
+
   return (
-    
-      <div>
+    <div>
+      {/* <Button onClick={handleClickOpen("paper")}>scroll=paper</Button> */}
+
+      <Dialog
+        open={data?.openModal}
+        onClose={data?.closeModal}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+        
+      >
+        <DialogTitle id="scroll-dialog-title">Edit Task</DialogTitle>
+        <DialogContent dividers={scroll === "paper"}>
         <FormComponent
-          inputProps={inputProps}
-          handleSubmitData={HandleSubmitEditTask}
           titleForm="Edit Task"
+          inputProps={data?.inputPropsEdit}
+          sendElement={data?.updateTask}
+          classCss={{
+            formContainer: "form-container-update",
+            inputContainer: "input-container-update",
+            itemInputContainer: "item-input-container-update",
+            buttonContainer:"button-container-update"
+          }}
         />
-      </div>
-    
+            
+         
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={data?.closeModal} color="error">Cancel</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
 

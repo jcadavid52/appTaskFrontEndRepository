@@ -1,6 +1,21 @@
 
 import { GridColDef } from "@mui/x-data-grid";
-import { useForm, UseFormRegister } from "react-hook-form";
+import { SxProps, Theme } from '@mui/system';
+
+
+
+
+export interface classTextfieldMuiCssType{
+    asdas: 
+}
+export interface TaskType{
+    id:string,
+    description:string,
+    status:string,
+    createdAt:Date,
+    updatedAt:Date
+}
+
 export interface GetTask{
     id:string,
     description:string,
@@ -29,19 +44,21 @@ export interface InputProps{
     required?:boolean,
     focused?:boolean,
     hidden?:boolean,
-    defaultValue?:string
+    defaultValue?:string,
+    cssTextField?:SxProps<Theme>
 }
 
 export interface ContextTaskPropsType{
-    // inputProps: InputProps[];
-    // createTask: (task:AddTask) => void;
-    // updateTask:(task:UpdateTask) => void;
-    // deleteTask:(id:string) => void
-    // getAllTasks:() => GetTask[];
+    createTask: (task:TaskType) => void;
+    updateTask:(task:TaskType) => void;
     rowsDatagrid:GetTask[];
+    loading:boolean;
     columnsDatagrid:GridColDef[];
-    inputProps?: InputProps[];
-    createElement: (task:AddTask) => void;
+    inputPropsEdit?: InputProps[];
+    inputPropsAdd?: InputProps[];
+    openModal:boolean;
+    closeModal:() => void;
+    modelUpdate?:TaskType;
     
     
 }

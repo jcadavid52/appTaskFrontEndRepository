@@ -1,72 +1,100 @@
-.form-container{
-    
-    width: 30%;
-    margin: 20px;
-    margin-top: 6.5em;
+/* Styles for add task form */
+.form-container-add {
+  width: 30%;
+  margin: 20px;
+  margin-top: 6.5em;
 }
 
-.form-container > h3{
-    margin: 20px;
-    text-align: center;
-    color: aliceblue;
+.form-container-add > h3 {
+  margin: 20px;
+  text-align: center;
+  color: aliceblue;
 }
 
-.button-container{
-    
-   margin-top: 15px;
+.button-container-add {
+  margin-top: 15px;
 }
 
-
-.text-field{
-    width: 100%;
+.text-field-add {
+  width: 100%;
 }
 
-.MuiInputBase-input{
-  color: aliceblue !important;
+.item-input-container-add > span {
+  color: red;
+  font-size: 13px;
+  display: block;
+  margin-top: 10px;
 }
 
-.item-input-container > span{
-    color: red;
-    font-size: 13px;
-   display: block; 
-}
-
-
+/* Responsive */
 
 @media (max-width: 850px) {
-    .form-container{
-   
-        width: 80%;
-        margin: auto;
-        margin-top: 2em;
-      
+  .form-container-add {
+    width: 80%;
+    margin: auto;
+    margin-top: 2em;
+  }
 
-      
-    }
+  .input-container-add {
+    text-align: center;
+  }
 
-    .input-container{
-        text-align: center;
-    }
+  .button-container-add {
+    margin-top: 20px;
+  }
+}
 
-    .button-container{
-    
-        margin-top:20px;
-       
-     }
+@media (max-width: 395px) {
+  .form-container-add {
+    width: 90%;
+  }
+}
 
-    
+/* Styles for update task form */
 
-    
+.form-container-update {
+  width: 100%;
+  text-align: center;
+}
+
+.form-container-update > h3 {
+  display: none;
+}
+
+.button-container-update {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.text-field-update {
+  width: 100%;
+  
+}
+
+.input-container-update {
+ 
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  
+ 
+
 }
 
 
+.item-input-container-update{
+  flex:50%;
+}
 
-@media (max-width: 395px) {
-   
-    .form-container{
-   
-        width: 90%;
-        
-      
-    }
+
+.item-input-container-update > span {
+  color: red;
+  font-size: 13px;
+  display: block;
+  margin-top: 10px;
+}
+
+.button-container-update{
+ 
+  flex:100%;
 }

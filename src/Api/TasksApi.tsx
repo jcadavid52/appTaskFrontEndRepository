@@ -1,9 +1,9 @@
 const API_URL = "http://localhost:9095/api";
 // const API_URL = 'https://localhost:7175/api';
 
-import { AddTask, GetTask, UpdateTask } from "../Types/TaskInterface";
+import { AddTask, GetTask, UpdateTask,TaskType } from "../Types/TaskInterface";
 
-export const getTasks = async (): Promise<GetTask[]> => {
+export const getTasks = async (): Promise<TaskType[]> => {
   try {
     const response = await fetch(`${API_URL}/TaskCli/GetTasks`);
 
@@ -21,7 +21,7 @@ export const getTasks = async (): Promise<GetTask[]> => {
   }
 };
 
-export const addTask = async (data: AddTask): Promise<AddTask | undefined > => {
+export const addTask = async (data: TaskType): Promise<TaskType | undefined > => {
   try {
     const response = await fetch(`${API_URL}/TaskCli/AddTask`, {
       method: "POST",
@@ -36,7 +36,7 @@ export const addTask = async (data: AddTask): Promise<AddTask | undefined > => {
       return undefined
     }
 
-    const result:AddTask = await response.json();
+    const result:TaskType = await response.json();
 
     
     
@@ -50,10 +50,12 @@ export const addTask = async (data: AddTask): Promise<AddTask | undefined > => {
   }
 };
 
-export const updateTask = async (data: UpdateTask,id:string): Promise<void> => {
+export const updateTask = async (data: TaskType): Promise<TaskType | undefined> => {
   try {
-    const response = await fetch(`${API_URL}/TaskCli/UpdateTask?id=${id}`, {
-      method: "POST",
+
+
+    const response = await fetch(`${API_URL}/TaskCli/UpdateTask?id=${data.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -61,12 +63,16 @@ export const updateTask = async (data: UpdateTask,id:string): Promise<void> => {
     });
 
     if (!response.ok) {
+      
       throw new Error("Error en la solicitud");
+      return undefined
     }
 
-    const result:AddTask = await response.json();
+    const result:TaskType = await response.json();
     
     console.log('Respuesta recibida:', result);
+
+    return result;
    
     
   } catch (error) {

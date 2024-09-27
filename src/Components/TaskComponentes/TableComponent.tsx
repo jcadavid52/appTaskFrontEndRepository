@@ -4,7 +4,6 @@ import { TaskContext } from "../../Context/TaskContext";
 import Box from "@mui/material/Box";
 
 interface TableProps {
-  loading: boolean;
   title:string
 }
 export function TableComponent(props:TableProps) {
@@ -15,7 +14,7 @@ export function TableComponent(props:TableProps) {
   return (
     <div className="datagrid-container">
       <h1>{props.title}</h1>
-      {props.loading ? (
+      {data?.loading ? (
         <p>{"Cargando..."}</p>
       ) : (
         <Box sx={{ height: "400px", width: "100%" }}>
