@@ -1,6 +1,6 @@
 
 import { createTheme, ThemeProvider } from "@mui/material";
-import "./App.css";
+//import "./App.css";
 import IndexPage from "./Pages/PageIndex";
 
 
