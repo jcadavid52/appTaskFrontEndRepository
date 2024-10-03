@@ -5,7 +5,15 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
+  
  
+}
+
+.alert-container{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+
 }
 
 @media (max-width: 850px) {

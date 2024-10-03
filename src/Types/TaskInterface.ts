@@ -1,36 +1,21 @@
 
 import { GridColDef } from "@mui/x-data-grid";
 import { SxProps, Theme } from '@mui/system';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 
 
 
-export interface classTextfieldMuiCssType{
-    asdas: 
-}
+
 export interface TaskType{
     id:string,
     description:string,
     status:string,
-    createdAt:Date,
-    updatedAt:Date
+    createdAt:string,
+    updatedAt:string
 }
 
-export interface GetTask{
-    id:string,
-    description:string,
-    status:string,
-    createdAt:Date,
-    updatedAt:Date
-}
 
-export interface AddTask{
-    description:string
-}
-
-export interface UpdateTask{
-    description:string
-}
 
 export interface InputProps{
     id:string,
@@ -48,18 +33,33 @@ export interface InputProps{
     cssTextField?:SxProps<Theme>
 }
 
+export interface InputSelectProps{
+    id?:string,
+    label?:string,
+    name:string,
+    required?:boolean,
+    value?:string
+}
+
 export interface ContextTaskPropsType{
     createTask: (task:TaskType) => void;
     updateTask:(task:TaskType) => void;
-    rowsDatagrid:GetTask[];
+    updateStatusTask:(task:TaskType) => void;
+    rowsDatagrid:TaskType[];
     loading:boolean;
     columnsDatagrid:GridColDef[];
     inputPropsEdit?: InputProps[];
     inputPropsAdd?: InputProps[];
+    inputPropsEditStatus:InputProps[];
+    inputPropsSelectEditStatus:InputSelectProps[];
     openModal:boolean;
     closeModal:() => void;
-    modelUpdate?:TaskType;
-    
+    openModalEditStatus:boolean;
+    closeModalEditStatus:() => void;
+    onChangeSelect:(event:SelectChangeEvent) => void;
+    isVisibleAlert:boolean;
+    handleVisibleAlert: (open:boolean) => void;
+    messageAlert:string;
     
 }
 

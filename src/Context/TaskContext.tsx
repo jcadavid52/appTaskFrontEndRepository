@@ -1,18 +1,18 @@
 import { createContext, useEffect, useState } from "react";
-import { AddTask, ContextTaskPropsType } from "../Types/TaskInterface";
-import { getTasks, addTask, updateTask, deleteTask } from "../Api/TasksApi";
+import { ContextTaskPropsType } from "../Types/TaskInterface";
+import { getTasks, addTask, updateTask, deleteTask,updateStatusTask } from "../Api/TasksApi";
 import {
-  GetTask,
-  UpdateTask,
   TaskType,
-  classTextfieldMuiCss,
 } from "../Types/TaskInterface";
 import IconButton from "@mui/material/IconButton";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { GridColDef } from "@mui/x-data-grid";
-import { InputProps } from "../Types/TaskInterface";
+import { InputProps,InputSelectProps } from "../Types/TaskInterface";
 import { SxProps, Theme } from "@mui/system";
+import { SelectChangeEvent } from '@mui/material/Select';
+
 
 interface TaskProviderProps {
   children: React.ReactNode;
@@ -23,12 +23,16 @@ export const TaskContext = createContext<ContextTaskPropsType | undefined>(
 );
 
 export function TaskContextProvider(props: TaskProviderProps) {
-  const [tasks, setTasks] = useState<GetTask[]>([]);
+  const [tasks, setTasks] = useState<TaskType[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshTable, setRefreshTable] = useState<boolean>(false);
-  const [open, setOpen] = useState(false);
+  const [openModelEditTask, setOpenModalEditTask] = useState<boolean>(false);
+  const [openModelEditStatusTask, setOpenModalEditStatusTask] = useState<boolean>(false);
   const [modelUpdate, setModelUpdate] = useState<TaskType>();
+  const [valueSelect, setValueSelect] = useState<string>('');
+  const [isVisibleAlert, setIsVisibleAlert] = useState<boolean>(false);
+  const [messageAlert,setMessageAlert] = useState<string>('');
 
   // Get All Tasks
   useEffect(() => {
@@ -46,6 +50,8 @@ export function TaskContextProvider(props: TaskProviderProps) {
     fetchData();
   }, [refreshTable]);
 
+  
+
   //crud
   const CreateTask = async (task: TaskType) => {
     try {
@@ -54,7 +60,8 @@ export function TaskContextProvider(props: TaskProviderProps) {
       if (response == undefined) {
         alert("Hubo un error");
       } else {
-        alert("task add successfully");
+        setMessageAlert("Task Add Successfully!");
+        setIsVisibleAlert(true);
 
         if (refreshTable) {
           setRefreshTable(false);
@@ -74,9 +81,10 @@ export function TaskContextProvider(props: TaskProviderProps) {
       if (response == undefined) {
         alert("Hubo un error");
       } else {
-        setOpen(false);
+        setOpenModalEditTask(false);
 
-        // alert("task updated successfully");
+        setMessageAlert("Task Updated Successfully!");
+        setIsVisibleAlert(true);
 
         if (refreshTable) {
           setRefreshTable(false);
@@ -90,9 +98,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
   };
 
   const DeleteTask = async (task: TaskType) => {
-    const respuesta = confirm(
-      "¿Estás seguro de que quieres realizar esta acción?"
-    );
+    const respuesta = await asyncConfirm("¿Estás seguro de que quieres realizar esta acción?");
 
     if (respuesta) {
       try {
@@ -107,7 +113,8 @@ export function TaskContextProvider(props: TaskProviderProps) {
             setRefreshTable(true);
           }
 
-          alert("Task Deleted Successfully!");
+          setMessageAlert("Task Deleted Successfully!");
+          setIsVisibleAlert(true);
         }
         
       } catch {
@@ -116,13 +123,58 @@ export function TaskContextProvider(props: TaskProviderProps) {
     }
   };
 
-  const HandleModal = (params: TaskType) => {
-    setOpen(true);
+  const UpdatedStatusTask = async (task:TaskType) => {
+    try {
+      const response = await updateStatusTask(task);
+
+      if (response == undefined) {
+        alert("Hubo un error");
+      } else {
+        setOpenModalEditStatusTask(false);
+
+        setMessageAlert("Task Status Updated Successfully!");
+        setIsVisibleAlert(true);
+
+        if (refreshTable) {
+          setRefreshTable(false);
+        } else {
+          setRefreshTable(true);
+        }
+      }
+    } catch {
+      alert("Hubo un error");
+    }
+  };
+
+  //modal
+
+  const HandleModalEditTask = (params: TaskType) => {
+    setOpenModalEditTask(true);
     setModelUpdate(params);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const HandleModalEditStatusTask = (params: TaskType) => {
+    setOpenModalEditStatusTask(true);
+    setModelUpdate(params);
+    setValueSelect('');
+    console.log(params)
+  };
+
+  
+
+  const handleCloseModalEditTask = () => {
+    setOpenModalEditTask(false);
+  };
+
+  const handleCloseModalEditStatusTask = () => {
+    setOpenModalEditStatusTask(false);
+  };
+
+  const asyncConfirm = (message:string) => {
+    return new Promise((resolve) => {
+      const respuesta = confirm(message);
+      resolve(respuesta);
+    });
   };
 
   //Columns datagrid
@@ -135,7 +187,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
     },
     {
       field: "status",
-      headerName: "Estado",
+      headerName: "Staus",
       width: 110,
       minWidth: 110,
       maxWidth: 200,
@@ -143,7 +195,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
     },
     {
       field: "description",
-      headerName: "Descripción",
+      headerName: "Description",
       width: 150,
       minWidth: 150,
       maxWidth: 250,
@@ -151,7 +203,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
     },
     {
       field: "createdAt",
-      headerName: "Fecha De Creación",
+      headerName: "Created At",
       width: 150,
       minWidth: 150,
       maxWidth: 280,
@@ -159,11 +211,12 @@ export function TaskContextProvider(props: TaskProviderProps) {
     },
     {
       field: "updatedAt",
-      headerName: "Fecha De Actualización",
+      headerName: "Update At",
       width: 150,
       minWidth: 150,
       maxWidth: 280,
       headerClassName: "MuiDataGrid-columnHeader--alignLeft",
+      
     },
     {
       field: "edit",
@@ -177,7 +230,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
             <IconButton
               color="secondary"
               size="medium"
-              onClick={() => HandleModal(params.row)}
+              onClick={() => HandleModalEditTask(params.row)}
             >
               <EditNoteIcon />
             </IconButton>
@@ -187,8 +240,29 @@ export function TaskContextProvider(props: TaskProviderProps) {
       headerClassName: "MuiDataGrid-columnHeader--alignLeft",
     },
     {
+      field: "editStatus",
+      headerName: "EditStatus",
+      width: 125,
+      hideable: false,
+      resizable: false,
+      renderCell: (params) => {
+        return (
+          <div>
+            <IconButton
+              color="secondary"
+              size="medium"
+              onClick={() => HandleModalEditStatusTask(params.row)}
+            >
+              <AssignmentIcon />
+            </IconButton>
+          </div>
+        );
+      },
+      headerClassName: "MuiDataGrid-columnHeader--alignLeft",
+    },
+    {
       field: "delete",
-      headerName: "Eliminar",
+      headerName: "Delete",
       width: 125,
       hideable: false,
       resizable: false,
@@ -248,6 +322,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
       "&.Mui-focused fieldset": {
         borderColor: "#17202a",
       },
+      
     },
 
     input: {
@@ -272,6 +347,7 @@ export function TaskContextProvider(props: TaskProviderProps) {
       cssTextField: CssTextFieldAddTask,
     },
   ];
+
 
   const inputPropsUpdateTask: InputProps[] = [
     {
@@ -300,6 +376,41 @@ export function TaskContextProvider(props: TaskProviderProps) {
     },
   ];
 
+  const inputPropsSelectUpdateStatusTask: InputSelectProps[] = [
+      {
+        id:"status",
+        label:"Status",
+        name:"status",
+        required:true,
+        value:valueSelect != '' ? valueSelect:modelUpdate?.status
+      }
+  ]
+
+  const inputPropsUpdateStatusTask: InputProps[] = [
+    {
+      id: "id",
+      type: "text",
+      label: "ID",
+      variant: "filled",
+      color: "secondary",
+      name: "id",
+      hidden: true,
+      defaultValue: modelUpdate?.id,
+    },
+]
+
+
+  //crear handles de select
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setValueSelect(event.target.value as string);
+  };
+
+  //alerts
+
+  const HandleVisibleAlert = (open:boolean) =>{
+    setIsVisibleAlert(open);
+  }
   return (
     <TaskContext.Provider
       value={{
@@ -307,12 +418,20 @@ export function TaskContextProvider(props: TaskProviderProps) {
         columnsDatagrid: columnsTasks,
         createTask: CreateTask,
         updateTask: UpdateTask,
+        updateStatusTask:UpdatedStatusTask,
         inputPropsAdd: inputPropsAddTask,
         inputPropsEdit: inputPropsUpdateTask,
+        inputPropsSelectEditStatus:inputPropsSelectUpdateStatusTask,
+        inputPropsEditStatus:inputPropsUpdateStatusTask,
         loading,
-        openModal: open,
-        closeModal: handleClose,
-        modelUpdate: modelUpdate,
+        openModal: openModelEditTask,
+        closeModal: handleCloseModalEditTask,
+        openModalEditStatus:openModelEditStatusTask,
+        closeModalEditStatus:handleCloseModalEditStatusTask,
+        onChangeSelect:handleChange,
+        isVisibleAlert,
+        handleVisibleAlert:HandleVisibleAlert,
+        messageAlert
       }}
     >
       {props.children}

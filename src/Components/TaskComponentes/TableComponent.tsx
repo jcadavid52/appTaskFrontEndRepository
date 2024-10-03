@@ -42,6 +42,8 @@ export function TableComponent(props:TableProps) {
           />
         </Box>
       )}
+
+      
     </div>
   );
 };

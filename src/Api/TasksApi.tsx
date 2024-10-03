@@ -1,5 +1,5 @@
 const API_URL = "http://localhost:9095/api";
-// const API_URL = 'https://localhost:7175/api';
+
 
 import { AddTask, GetTask, UpdateTask,TaskType } from "../Types/TaskInterface";
 
@@ -102,3 +102,33 @@ export const deleteTask = async (taskId: string): Promise<TaskType | undefined> 
     return undefined;
   }
 }
+
+export const updateStatusTask = async (data: TaskType): Promise<TaskType | undefined> => {
+  try {
+
+
+    const response = await fetch(`${API_URL}/TaskCli/UpdateStatusTask?id=${data.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      
+      throw new Error("Error en la solicitud");
+      return undefined
+    }
+
+    const result:TaskType = await response.json();
+    
+    console.log('Respuesta recibida:', result);
+
+    return result;
+   
+    
+  } catch (error) {
+    console.error('Hubo un problema con la solicitud:', error);
+  }
+};
