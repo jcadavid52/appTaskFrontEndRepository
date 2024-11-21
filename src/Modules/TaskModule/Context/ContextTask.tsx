@@ -301,7 +301,6 @@ export function TaskContextProvider2(props: TaskProviderProps) {
   return (
     <TaskContext2.Provider
       value={{
-        message: "asdasd",
         createTask: CreateTask,
         textFieldStyle: TextFieldStyle,
         loading,
