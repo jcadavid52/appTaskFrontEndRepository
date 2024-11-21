@@ -1,7 +1,7 @@
 const API_URL = "http://localhost:9095/api";
 
 
-import { AddTask, GetTask, UpdateTask,TaskType } from "../Types/TaskInterface";
+import { TaskType } from "../Types/TaskInterface";
 
 export const getTasks = async (): Promise<TaskType[]> => {
   try {
@@ -11,7 +11,7 @@ export const getTasks = async (): Promise<TaskType[]> => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data: GetTask[] = await response.json();
+    const data: TaskType[] = await response.json();
 
    
     return data;
