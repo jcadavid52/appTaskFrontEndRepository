@@ -1,7 +1,7 @@
 
 import { createTheme, ThemeProvider } from "@mui/material";
 import "./App.css";
-import IndexPage from "./Pages/PageIndex";
+// import IndexPage from "./Pages/PageIndex";
 
 
 
@@ -24,9 +24,9 @@ function App() {
       
       <div className="app-container">
        
-
+        <h1>Hola mundo</h1>
        
-        <IndexPage/>
+        {/* <IndexPage/> */}
        
        
       </div>
