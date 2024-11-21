@@ -1,15 +1,12 @@
-import { TableComponent } from "../Components/TaskComponentes/TableComponent";
 import "../assets/css/TableComponent.css";
 import "../assets/css/indexPage.css";
-import { FormComponent } from "../Components/TaskComponentes/FormComponent";
-import { TaskContext } from "../Context/TaskContext";
-import { useContext } from "react";
-import ModalComponent from "../Components/TaskComponentes/ModalComponent";
-import ModalComponentEditStatusTask from "../Components/TaskComponentes/ModalComponentEditStatusTask";
-import AlertComponent from "../Components/TaskComponentes/AlertComponent";
+import AlertComponent from "../MauiComponents/AlertComponent";
+import ModalEditStatus from "../Modules/TaskModule/Components/ModalEditStatus";
+import FormAdd from "../Modules/TaskModule/Components/FormAdd";
+import { TableComponent2 } from "../Modules/TaskModule/Components/Table";
+import ModalEdit from "../Modules/TaskModule/Components/ModalEdit";
 
 export default function PageIndex() {
-  const data = useContext(TaskContext);
 
   return (
     <>
@@ -17,21 +14,20 @@ export default function PageIndex() {
         <AlertComponent />
       </div>
       <div className="pageIndex-container">
-        <FormComponent
-          titleForm={"Add Task"}
-          inputProps={data?.inputPropsAdd}
-          sendElement={data?.createTask}
-          classCss={{
+      
+        <FormAdd classCss={{
             formContainer: "form-container-add",
             inputContainer: "input-container-add",
             itemInputContainer: "item-input-container-add",
             buttonContainer: "button-container-add",
-          }}
-        />
-        <TableComponent title="Task List" />
+          }}/>
+        
+        <TableComponent2/>
 
-        <ModalComponent />
-        <ModalComponentEditStatusTask />
+       
+        <ModalEdit/>
+        <ModalEditStatus/>
+        <ModalEditStatus/>
       </div>
     </>
   );

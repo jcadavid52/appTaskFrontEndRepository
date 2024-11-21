@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { TaskContext } from "../../Context/TaskContext";
+import { useEffect } from 'react';
 import { useContext } from "react";
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
+import { TaskContext2 } from '../Modules/TaskModule/Context/ContextTask';
 
 
 
 export default function AlertComponent(){
-    const data = useContext(TaskContext);
+    const data = useContext(TaskContext2);
     useEffect(() => {
  
         const timer = setTimeout(() => {

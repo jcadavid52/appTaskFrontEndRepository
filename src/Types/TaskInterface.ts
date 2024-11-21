@@ -41,6 +41,26 @@ export interface InputSelectProps{
     value?:string
 }
 
+export interface TaskContextProps{
+    message:string;
+    createTask: (task:TaskType) => void;
+    updateTask:(task:TaskType) => void;
+    textFieldStyle?:SxProps<Theme>;
+    loading?:boolean;
+    tasks:TaskType[];
+    columnsDatagrid:GridColDef[];
+    modalEdit:boolean;
+    closeModal:() => void;
+    modelUpdate?:TaskType;
+    openModalEditStatus?:boolean;
+    closeModalEditStatus:() => void;
+    updateStatusTask:(task:TaskType) => void;
+    handleVisibleAlert: (open:boolean) => void;
+    isVisibleAlert:boolean;
+    messageAlert:string;
+    
+}
+
 export interface ContextTaskPropsType{
     createTask: (task:TaskType) => void;
     updateTask:(task:TaskType) => void;
@@ -61,5 +81,14 @@ export interface ContextTaskPropsType{
     handleVisibleAlert: (open:boolean) => void;
     messageAlert:string;
     
+}
+
+export interface FormProps {
+    classCss: {
+      formContainer?: string;
+      inputContainer?: string;
+      itemInputContainer?: string;
+      buttonContainer?: string;
+    };
 }
 

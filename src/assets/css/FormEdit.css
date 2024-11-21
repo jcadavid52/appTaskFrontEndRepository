@@ -1,0 +1,45 @@
+/* Styles for update task form */
+
+.form-container-update {
+    width: 100%;
+    text-align: center;
+  }
+  
+  
+  .button-container-update {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .text-field-update {
+    width: 100%;
+    
+  }
+  
+  .input-container-update {
+   
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    
+   
+  
+  }
+  
+  
+  .item-input-container-update{
+    flex:50%;
+  }
+  
+  
+  .item-input-container-update > span {
+    color: red;
+    font-size: 13px;
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .button-container-update{
+   
+    flex:100%;
+  }
