@@ -1,7 +1,6 @@
 {
   "name": "cli-task-app",
   "private": true,
-  "homepage": "https://jcadavid52.github.io/appTaskFrontEndRepository/dist",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
