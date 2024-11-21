@@ -16,7 +16,7 @@ export default function AlertComponent(){
     
         
         return () => clearTimeout(timer);
-      }, [data?.isVisibleAlert]);
+      });
    
   
     return (
