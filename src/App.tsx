@@ -24,7 +24,7 @@ function App() {
       
       <div className="app-container">
        
-        <h1>Hola Mundo</h1>
+        <h1>Hola</h1>
        
         {/* <IndexPage/> */}
        
